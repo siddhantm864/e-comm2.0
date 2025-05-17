@@ -1,6 +1,6 @@
-import Styled from 'styled-components';
-import CategoryItem from './categoryItem';
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@mui/icons-material';
+import Styled from "styled-components";
+import CategoryItem from "./categoryItem";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 
 const Container = Styled.div``;
 
@@ -17,8 +17,8 @@ const Arrow = Styled.div`
     position: absolute;
     top: 50%;
     transform: translateY(-50%); /* Adjust for proper centering */
-    left: ${(props)=> props.direction === "left" && "10px"};
-    right: ${(props)=> props.direction === "right" && "10px"};
+    left: ${(props) => props.direction === "left" && "10px"};
+    right: ${(props) => props.direction === "right" && "10px"};
     width: 40px;
     height: 40px;
     background-color: rgba(255, 255, 255, 0.8);
@@ -35,29 +35,30 @@ const Wrapper = Styled.div`
     justify-content: center;
 `;
 
-
 const Categories = () => {
-    return (
-        <Container>
-            <h1 style={{textAlign:"center"}}>Categories</h1>
-            <p style={{textAlign:"center"}}>Explore our wide range of categories</p>
-            <Slider>
-                <Arrow direction="left">
-                    <ArrowLeftOutlined/>
-                </Arrow>
-                <Wrapper>
-                    <CategoryItem />
-                    <CategoryItem />
-                    <CategoryItem />
-                    <CategoryItem />
-                    <CategoryItem />
-                </Wrapper>
-                <Arrow direction="right">
-                    <ArrowRightOutlined/>
-                </Arrow>
-            </Slider>
-        </Container>
-    );
-}
+  return (
+    <Container>
+      <h1 style={{ textAlign: "center" }}>Categories</h1>
+      <p style={{ textAlign: "center" }}>
+        Explore our wide range of categories
+      </p>
+      <Slider>
+        <Arrow direction="left">
+          <ArrowLeftOutlined />
+        </Arrow>
+        <Wrapper>
+          <CategoryItem />
+          <CategoryItem />
+          <CategoryItem />
+          <CategoryItem />
+          <CategoryItem />
+        </Wrapper>
+        <Arrow direction="right">
+          <ArrowRightOutlined />
+        </Arrow>
+      </Slider>
+    </Container>
+  );
+};
 
 export default Categories;
