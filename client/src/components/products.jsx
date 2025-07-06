@@ -1,6 +1,7 @@
 import { FavoriteBorder } from "@mui/icons-material";
 import Navbar from "./navbar";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -20,29 +21,33 @@ const ProductContainer = styled.div`
   overflow: hidden;
 `;
 const ImageContainer = styled.div`
-  flex: 1;
-  padding: 10px;
+  height: 55%; // fixed height for image area
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 55%;
+  background: #f9f9f9;
 `;
+
 const Image = styled.img`
-  padding: 5x;
-  object-fit: cover;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  display: block;
 `;
+
 const ProductInfo = styled.div`
-  flex: 1;
+  height: 45%; // remaining height for info
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px 5px;
-  height: 40%;
-  width: 100%;
-  // box-sizing: border-box;
+  background: #fff;
+  box-sizing: border-box;
+  justify-content: space-between;
 `;
+
 const ProductTitle = styled.h1`
   font-size: 30px;
   font-weight: 600;
@@ -84,10 +89,12 @@ const Products = () => {
     <Container>
       <ProductContainer>
         <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
+          <Link to={`/product`}>
+            <Image
+              src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="loading"
+            />
+          </Link>
         </ImageContainer>
         <ProductInfo>
           <ProductTitle>US PoloShirt</ProductTitle>

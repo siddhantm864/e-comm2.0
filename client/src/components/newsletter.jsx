@@ -9,7 +9,7 @@ const Container = styled.div`
   justify-content: center;
   widht: 100%;
   height: 40vh;
-  background-color: rgb(241, 206, 206);
+  background-color: rgb(201, 225, 242);
 `;
 
 const Wrapper = styled.div`

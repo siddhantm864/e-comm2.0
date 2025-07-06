@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PersonIcon from "@mui/icons-material/Person";
 import { ShoppingBag, FavoriteBorder, Search } from "@mui/icons-material";
 import { Badge } from "@mui/material";
+import { Link } from "react-router-dom";
 
 //styled components
 
@@ -143,14 +144,18 @@ const Navbar = () => {
         <Right>
           <IconContainer>
             <IconItem>
-              <PersonIcon />
+              <Link to={`/profile`}>
+                <PersonIcon />
+              </Link>
             </IconItem>
             <IconItem>
               <FavoriteBorder />
             </IconItem>
             <StyledBadge badgeContent={4} color="primary">
               <IconItem>
-                <ShoppingBag />
+                <Link to={`/cart`}>
+                  <ShoppingBag />
+                </Link>
               </IconItem>
             </StyledBadge>
           </IconContainer>

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import slider1 from "../assets/slider1.jpg";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   flex: 1;
@@ -7,8 +8,6 @@ const Container = styled.div`
   height: 50vh;
   position: relative;
 `;
-
-const Link = styled.a``;
 
 const Image = styled.img`
   width: 100%;
@@ -46,12 +45,13 @@ const Button = styled.button`
 const CategoryItem = () => {
   return (
     <Container>
-      <Link />
-      <Image src={slider1} />
-      <Info>
-        <Title>Music</Title>
-        <Button>Shop Now</Button>
-      </Info>
+      <Link to={`/product-list`}>
+        <Image src={slider1} />
+        <Info>
+          <Title>Music</Title>
+          <Button>Shop Now</Button>
+        </Info>
+      </Link>
     </Container>
   );
 };
