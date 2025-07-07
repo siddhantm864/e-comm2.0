@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import axios from "axios";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import "../styling/register.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {GoogleLoginButton} from "../components/googleLogin";
+
 
 
 const Container = styled.div`
@@ -21,22 +23,45 @@ const P = styled.p`
 const Register = () => {
   const [form, setForm] = useState({
     email: "",
-    userName: "",
+    username: "",
     crPassword: "",
     rePassword: "",
   });
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const validatePassword = (e) => {
+  const  handleRegister= async(e) => {
     e.preventDefault();
-    if (form.crPassword.trim() === form.rePassword.trim()) {
-      navigate("/login");
-    } else {
-      alert("Password mismatch");
+    setError("")
+    if(form.crPassword.trim()!==form.rePassword.trim()){
+      setError("password mismatch");
+      return;
+    }
+    setLoading(true);
+    try{
+      const res=await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        {
+          email:form.email,
+          username:form.username,
+          password:form.crPassword,
+          provider:"local"
+        }
+      );
+      navigate("/login")
+    } catch(err){
+      setError(
+      err.reponse?.data?.message ||
+      err.response?.data?.error ||
+      "Registration failed"
+      );
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -46,7 +71,7 @@ const Register = () => {
       <div className="wrapper">
         <div className="registerBox">
           <h2 className="registerTitle">Register</h2>
-          <form className="registerForm" onSubmit={validatePassword}>
+          <form className="registerForm" onSubmit={handleRegister}>
             <input
               className="formInput"
               type="text"
@@ -59,8 +84,8 @@ const Register = () => {
             <input
               className="formInput"
               type="text"
-              name="userName"
-              value={form.userName}
+              name="username"
+              value={form.username}
               placeholder="Your Name"
               onChange={handleChange}
               required
@@ -84,14 +109,13 @@ const Register = () => {
               onChange={handleChange}
               required
             />
+            {error && <div style={{ color: "red", margin: "8px 0" }}>{error}</div>}
             <button
               className="registerSubmit"
               type="submit"
-              // disabled={
-              //   !form.email || !form.userName || !form.crPassword || !form.rePassword
-              // }
+              disabled={loading}
             >
-              Submit
+              {loading?"Registering..":"Submit"}
             </button>
           </form>
           <GoogleLoginButton style={{ margin: "5px" }} />
