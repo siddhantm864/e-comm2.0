@@ -1,15 +1,24 @@
-// import express from 'express';
-const express =require("express");
+import dotenv from 'dotenv';
+import express from 'express';
+import connectMongoDb from './db/mongoDb.js';
+import cors from "cors"
+import authRoute from "./routes/auth.routes.js"
+dotenv.config();
 
 const app = express();
+app.use(express.json())
+app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send("Hello express");
-});
+const URI= process.env.MONGO_URI
+connectMongoDb(URI);
 
-const PORT = 5000;
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);
-    // console.log("Server is running at port " + PORT);
 });
+
+app.get("/",(req,res)=>{
+    res.send("app is running...")
+})
+
+app.use("/api/auth",authRoute)

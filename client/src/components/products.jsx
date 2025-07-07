@@ -74,14 +74,14 @@ const ProductWish = styled.div`
   width: 100%;
 `;
 const WishButton = styled.button`
-  padding: 10px;
+  padding: 5px;
   margin-right: 10px;
   font-size: 16px;
   font-weight: 500;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
-  width: 50%;
+  width: 40%;
 `;
 
 const Products = () => {
@@ -102,7 +102,7 @@ const Products = () => {
           <ProductPrice>20</ProductPrice>
           <ProductWish>
             <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
+            <WishButton style={{ backgroundColor: "light-yellow" }}>
               Add to Cart
             </WishButton>
             <WishButton style={{ backgroundColor: "orange" }}>
