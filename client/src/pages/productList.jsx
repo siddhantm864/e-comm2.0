@@ -161,7 +161,7 @@ const ProductList = () => {
           </PriceSliderContainer>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Pro ducts />
       {/* <Footer/> */}
     </Container>
   );

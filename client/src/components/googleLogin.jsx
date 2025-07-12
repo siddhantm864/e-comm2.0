@@ -1,11 +1,56 @@
-import { GoogleLogin } from '@react-oauth/google';
-import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
+const handleGoogleSuccess1 = async (response) => {
+  console.log("Google signup/login success", response);
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URI}/api/auth/google-signup`,
+      {
+        credential: response.credential,
+      }
+    );
+    console.log("Google signup/login success", res.data);
+  } catch (err) {
+    console.log("google signup/login failed", err);
+  }
+};
+
+const handleGoogleSuccess2 = async (tokenResponse) => {
+  console.log("Google token response", tokenResponse);
+
+  try {
+    const userInfo = await axios.get(
+      'https://www.googleapis.com/oauth2/v3/userinfo',
+      {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
+      }
+    );
+
+    console.log("Google user info:", userInfo.data);
+
+    // Then send to your backend
+    const res = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URI}/api/auth/google-signup`,
+      {
+        user: userInfo.data,
+        token: tokenResponse.access_token,
+      }
+    );
+
+    console.log("Google signup/login success", res.data);
+  } catch (err) {
+    console.log("google signup/login failed", err);
+  }
+};
+
 
 const GoogleLoginBtn = () => (
   <GoogleLogin
-    onSuccess={credentialResponse => {
-      console.log("Google login success", credentialResponse);
-    }}
+    onSuccess={handleGoogleSuccess1}
     onError={() => {
       console.log("Login Failed");
     }}
@@ -14,8 +59,9 @@ const GoogleLoginBtn = () => (
 
 const GoogleLoginButton = () => {
   const login = useGoogleLogin({
-    onSuccess: (response) => console.log(response),
-    onError: () => console.log('Login Failed'),
+    onSuccess: handleGoogleSuccess2,
+    onError: () => console.log("Login Failed"),
+    flow: "implicit", // or 'auth-code' depending on your backend
   });
 
   return (
@@ -23,7 +69,7 @@ const GoogleLoginButton = () => {
       onClick={() => login()}
       style={{
         padding: "10px 20px",
-        marginTop:"10px",
+        marginTop: "10px",
         fontSize: "16px",
         borderRadius: "6px",
         border: "none",
@@ -45,4 +91,4 @@ const GoogleLoginButton = () => {
   );
 };
 
-export {GoogleLoginBtn,GoogleLoginButton};
+export { GoogleLoginBtn, GoogleLoginButton };

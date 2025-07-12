@@ -5,9 +5,9 @@ import Footer from "../components/footer";
 import "../styling/register.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {GoogleLoginButton} from "../components/googleLogin";
+import { GoogleLoginButton } from "../components/googleLogin";
 
-
+const backendURI=process.env.REACT_APP_BACKEND_URI
 
 const Container = styled.div`
   min-height: 100vh;
@@ -27,40 +27,39 @@ const Register = () => {
     crPassword: "",
     rePassword: "",
   });
-  const [loading,setLoading]=useState(false);
-  const [error,setError]=useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const  handleRegister= async(e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setError("")
-    if(form.crPassword.trim()!==form.rePassword.trim()){
+    setError("");
+    if (form.crPassword.trim() !== form.rePassword.trim()) {
       setError("password mismatch");
       return;
     }
     setLoading(true);
-    try{
-      const res=await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        {
-          email:form.email,
-          username:form.username,
-          password:form.crPassword,
-          provider:"local"
-        }
-      );
-      navigate("/login")
-    } catch(err){
+    console.log(backendURI)
+    try {
+      const res = await axios.post(`${backendURI}/api/auth/signup`, {
+        email: form.email,
+        username: form.username,
+        password: form.crPassword,
+        provider: "local",
+      });
+      navigate("/login");
+    } catch (err) {
+      // console.log(err)
       setError(
-      err.reponse?.data?.message ||
-      err.response?.data?.error ||
-      "Registration failed"
+        err.reponse?.data?.message ||
+          err.response?.data?.error ||
+          "Registration failed"
       );
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -109,16 +108,16 @@ const Register = () => {
               onChange={handleChange}
               required
             />
-            {error && <div style={{ color: "red", margin: "8px 0" }}>{error}</div>}
-            <button
-              className="registerSubmit"
-              type="submit"
-              disabled={loading}
-            >
-              {loading?"Registering..":"Submit"}
+            {error && (
+              <div style={{ color: "red", margin: "8px 0" }}>{error}</div>
+            )}
+            <button className="registerSubmit" type="submit" disabled={loading}>
+              {loading ? "Registering.." : "Submit"}
             </button>
           </form>
-          <GoogleLoginButton style={{ margin: "5px" }} />
+          <GoogleLoginButton
+            style={{ margin: "5px" }}
+          />
           <P onClick={() => navigate("/login")}>Go to Login</P>
         </div>
       </div>

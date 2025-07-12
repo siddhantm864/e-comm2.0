@@ -4,8 +4,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import { ShoppingBag, FavoriteBorder, Search } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-//styled components
+const backendURI = process.env.REACT_APP_BACKEND_URI;
 
 const Container = styled.div`
   width: 100%;
@@ -134,11 +135,21 @@ const Navbar = () => {
         </Left>
         <Center>
           <MenuContainer>
-            <MenuItem>Home</MenuItem>
-            <MenuItem>Men</MenuItem>
-            <MenuItem>Women</MenuItem>
-            <MenuItem>Kids</MenuItem>
-            <MenuItem>Beauty</MenuItem>
+            <Link to="/">
+              <MenuItem>Home</MenuItem>
+            </Link>
+            <Link to={`/products?category=Men`}>
+              <MenuItem>Men</MenuItem>
+            </Link>
+            <Link to={`/products?category=Women`}>
+              <MenuItem>Women</MenuItem>
+            </Link>
+            <Link to={`/products?category=Kids`}>
+              <MenuItem>Kids</MenuItem>
+            </Link>
+            <Link to={`/products?category=Beauty`}>
+              <MenuItem>Beauty</MenuItem>
+            </Link>
           </MenuContainer>
         </Center>
         <Right>

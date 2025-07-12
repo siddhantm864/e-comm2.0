@@ -3,6 +3,7 @@ import express from 'express';
 import connectMongoDb from './db/mongoDb.js';
 import cors from "cors"
 import authRoute from "./routes/auth.routes.js"
+import productRoute from "./routes/product.routes.js"
 dotenv.config();
 
 const app = express();
@@ -22,3 +23,4 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/api/auth",authRoute)
+app.use("/api/products",productRoute)

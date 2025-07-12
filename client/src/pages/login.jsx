@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import Navbar from "../components/navbar";
+import axios from "axios";
 import Footer from "../components/footer";
 import "../styling/login.scss";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { GoogleLoginBtn } from "../components/googleLogin";
-import { Margin } from "@mui/icons-material";
+
+const backendURI=process.env.REACT_APP_BACKEND_URI
 
 const Container = styled.div`
   min-height: 100vh;
@@ -13,36 +15,48 @@ const Container = styled.div`
   flex-direction: column;
   background: linear-gradient(135deg, rgb(106, 140, 254) 0%, #fff 100%);
 `;
-const P=styled.p`
-  margin:4px;
-  cursor:pointer;
-`
+const P = styled.p`
+  margin: 4px;
+  cursor: pointer;
+`;
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate=useNavigate()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const dbEmail = "test@gmail.com";
-  const dbPassword = "Pass123";
-
-  const validateCrendential = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (email === dbEmail && password === dbPassword) {
-      setIsLoggedIn(true);
-      navigate('/')
-      // alert("login successful");
+    setError("");
+    setLoading(true);
 
-    } else alert("wrong credential");
+    try {
+      const res = await axios.post(`${backendURI}api/auth/login`, {
+        email,
+        password,
+      });
+
+      navigate("/"); // Redirect on successful login
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.response?.data?.error ||
+          "Login failed"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <Container>
       <Navbar />
       <div className="wrapper">
         <div className="loginBox">
           <h2 className="loginTitle">Login</h2>
-          <form className="loginForm">
+          <form className="loginForm" onSubmit={handleLogin}>
             <input
               className="formInput"
               type="text"
@@ -62,14 +76,17 @@ const Login = () => {
             <button
               className="loginSubmit"
               type="submit"
-              onClick={validateCrendential}
+              // onClick={validateCrendential}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Logging.." : "Submit"}
             </button>
           </form>
-          <GoogleLoginBtn style={{ margin: "5px" }}/>
+          <GoogleLoginBtn
+            style={{ margin: "5px" }}
+          />
           <P>Forgot Password</P>
-          <P onClick={()=>navigate('/register')}>Create a account</P>
+          <P onClick={() => navigate("/register")}>Create a account</P>
         </div>
       </div>
       <Footer />

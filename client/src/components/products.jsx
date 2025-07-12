@@ -1,7 +1,8 @@
 import { FavoriteBorder } from "@mui/icons-material";
-import Navbar from "./navbar";
+import Navbar from "../";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import productData from "../data/product.data.json";
 
 const Container = styled.div`
   display: flex;
@@ -15,13 +16,16 @@ const ProductContainer = styled.div`
   flex-direction: column;
   margin: 10px;
   border: 2px solid lightgray;
-  height: 55vh;
+  min-height: 350px;
+  max-height: 450px;
   width: 18.5%;
   box-sizing: border-box;
   overflow: hidden;
+  background: #fff;
 `;
+
 const ImageContainer = styled.div`
-  height: 55%; // fixed height for image area
+  height: 55%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -37,7 +41,7 @@ const Image = styled.img`
 `;
 
 const ProductInfo = styled.div`
-  height: 45%; // remaining height for info
+  height: 45%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -46,26 +50,40 @@ const ProductInfo = styled.div`
   background: #fff;
   box-sizing: border-box;
   justify-content: space-between;
+  overflow: hidden;
 `;
 
 const ProductTitle = styled.h1`
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 600;
-  // margin-bottom: 5px;
   color: #333;
+  margin: 8px 0 4px 0;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
 const ProductDescription = styled.p`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
-  // margin-bottom: 5px;
   color: #666;
+  margin: 0 0 8px 0;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Show max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
 const ProductPrice = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  // margin-bottom: 10px;
   color: #333;
+  margin-bottom: 6px;
 `;
+
 const ProductWish = styled.div`
   display: flex;
   align-items: center;
@@ -73,6 +91,7 @@ const ProductWish = styled.div`
   margin: 10px 0px;
   width: 100%;
 `;
+
 const WishButton = styled.button`
   padding: 5px;
   margin-right: 10px;
@@ -82,146 +101,37 @@ const WishButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   width: 40%;
+  background: #fff;
 `;
+
+// ...rest of your Products component remains the same
 
 const Products = () => {
   return (
     <Container>
-      <ProductContainer>
-        <ImageContainer>
-          <Link to={`/product`}>
-            <Image
-              src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="loading"
-            />
-          </Link>
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "light-yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
-
-      <ProductContainer>
-        <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
-      <ProductContainer>
-        <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
-      <ProductContainer>
-        <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
-      <ProductContainer>
-        <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
-      <ProductContainer>
-        <ImageContainer>
-          <Image
-            src="https://images.unsplash.com/photo-1734364269335-d6f2913ac643?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="loading"
-          />
-        </ImageContainer>
-        <ProductInfo>
-          <ProductTitle>US PoloShirt</ProductTitle>
-          <ProductDescription>cotton mix shirt</ProductDescription>
-          <ProductPrice>20</ProductPrice>
-          <ProductWish>
-            <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-            <WishButton style={{ backgroundColor: "yellow" }}>
-              Add to Cart
-            </WishButton>
-            <WishButton style={{ backgroundColor: "orange" }}>
-              Buy Now
-            </WishButton>
-          </ProductWish>
-        </ProductInfo>
-      </ProductContainer>
+      {productData.products.map((e) => (
+        <ProductContainer key={e.id}>
+          <ImageContainer>
+            <Link to={`/product/`}>
+              <Image src={e.thumbnail} alt="loading" />
+            </Link>
+          </ImageContainer>
+          <ProductInfo>
+            <ProductTitle>{e.title} </ProductTitle>
+            <ProductDescription>{e.description}</ProductDescription>
+            <ProductPrice>{e.price}</ProductPrice>
+            <ProductWish>
+              <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
+              <WishButton style={{ backgroundColor: "light-yellow" }}>
+                Add to Cart
+              </WishButton>
+              <WishButton style={{ backgroundColor: "orange" }}>
+                Buy Now
+              </WishButton>
+            </ProductWish>
+          </ProductInfo>
+        </ProductContainer>
+      ))}
     </Container>
   );
 };
