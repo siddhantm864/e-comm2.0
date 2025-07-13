@@ -45,10 +45,10 @@ const Button = styled.button`
 const CategoryItem = () => {
   return (
     <Container>
-      <Link to={`/product-list`}>
+      <Link to={`/products/beauty`}>
         <Image src={slider1} />
         <Info>
-          <Title>Music</Title>
+          <Title>Beauty</Title>
           <Button>Shop Now</Button>
         </Info>
       </Link>

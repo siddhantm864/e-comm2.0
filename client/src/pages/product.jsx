@@ -3,6 +3,9 @@ import Navbar from "../components/navbar";
 import slider1 from "../assets/slider1.jpg";
 import { FavoriteBorder, Margin } from "@mui/icons-material";
 import Footer from "../components/footer";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -85,22 +88,44 @@ const BuyButton = styled.button`
 `;
 
 const ProductAbout = styled.div``;
+const backendURI = process.env.REACT_APP_BACKEND_URI;
 
-const Product = () => {
+const Product = ({}) => {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`${backendURI}/api/products/${id}`);
+        console.log("Response",backendURI)
+        setProduct(res.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Unable to fetch product");
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!product) return <div>No Product Found</div>;
   return (
     <Container>
       <Navbar />
       <ProductContainer>
         <ImageContainer>
           {/* <Share> share item</Share> */}
-          <ProductImage src={slider1} alt="Product Image" />
+          <ProductImage src={product.thumbnail} alt="Product Image" />
         </ImageContainer>
         {/* <ProductImage src="https://unsplash.com/photos/a-large-body-of-water-with-a-city-in-the-background-x9tnkb84cTM" alt="Product Image" /> */}
         {/* <ProductImage></ProductImage> */}
         <ProductInfo>
-          <ProductTitle>Product Title</ProductTitle>
-          <ProductDescription>Product Description</ProductDescription>
-          <ProductPrice>$100</ProductPrice>
+          <ProductTitle>{product.title}</ProductTitle>
+          <ProductDescription>{product.description}</ProductDescription>
+          <ProductPrice>${product.price}</ProductPrice>
           <ProductWish>
             <FavoriteBorder
               style={{ marginLeft: "10px", padding: "5px", cursor: "pointer" }}

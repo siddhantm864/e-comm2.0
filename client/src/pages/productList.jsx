@@ -2,8 +2,9 @@ import styled from "styled-components";
 import Navbar from "../components/navbar";
 import { useState } from "react";
 import { Slider } from "@mui/material";
-import Products from "../components/products";
+import ProductCard from "../components/productCard";
 import Footer from "../components/footer";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -74,10 +75,10 @@ const PriceSlider = styled.input`
   width: 200px;
   cursor: pointer;
 `;
-// const minValue = 0;
-// const MaxValue = 1000;
 
 const ProductList = () => {
+  const pathLocation=useLocation()
+  const category=(pathLocation.pathname.split("/")[2])
   const minDistance = 500;
   const [priceRange, setPriceRange] = useState([0, 5000]);
   const handlePriceChange = (event, newValue, activeThumb) => {
@@ -97,7 +98,7 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Title>Category</Title>
+      <Title>{category}</Title>
       <FilterContainer>
         <div style={{ display: "flex" }}>
           <Filter>
@@ -161,7 +162,7 @@ const ProductList = () => {
           </PriceSliderContainer>
         </Filter>
       </FilterContainer>
-      <Pro ducts />
+      <ProductCard cat={category}/>
       {/* <Footer/> */}
     </Container>
   );

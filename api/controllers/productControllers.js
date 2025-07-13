@@ -3,16 +3,14 @@ import Product from "../models/mongo/product.model.js";
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
+    console.log("product",product)
     if (!product) {
       return res.status(404).json({
         success: false,
         message: "error while fetching product",
       });
     }
-    res.status(200).json({
-      success: true,
-      dat: product,
-    });
+    res.status(200).json(product);
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -36,10 +34,7 @@ const getProductByCategory = async (req, res) => {
     } else {
       products = await Product.find();
     }
-    res.status(200).json({
-      success: true,
-      data: products,
-    });
+    res.status(200).json(products);
   } catch (error) {
     res.status(500).json({
       success: false,

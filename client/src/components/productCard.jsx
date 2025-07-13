@@ -1,8 +1,11 @@
 import { FavoriteBorder } from "@mui/icons-material";
-import Navbar from "../";
+import Navbar from "..";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import productData from "../data/product.data.json";
+import { useEffect, useState } from "react";
+import axios from "axios";
+// import productData from "../data/product.data.json";
+const backendURI=process.env.REACT_APP_BACKEND_URI
 
 const Container = styled.div`
   display: flex;
@@ -105,14 +108,31 @@ const WishButton = styled.button`
 `;
 
 // ...rest of your Products component remains the same
-
-const Products = () => {
+const ProductCard = ({cat}) => {
+  console.log("category",cat)
+  const [products,setProducts]=useState([])
+  useEffect(()=>{
+    const getProducts=async()=>{
+      try{
+        const res=await axios.get(
+          cat
+          ?`${backendURI}/api/products?category=${cat}`
+          :`${backendURI}/api/products`
+        )
+        setProducts(res.data)
+        console.log("Response",res)
+      }catch(error){
+        console.log("error while fetching products...")
+      }
+    }
+    getProducts()
+  },[cat])
   return (
     <Container>
-      {productData.products.map((e) => (
-        <ProductContainer key={e.id}>
+      {products.map((e) => (     
+        <ProductContainer key={e._id}>
           <ImageContainer>
-            <Link to={`/product/`}>
+            <Link to={`/product/${e._id}`}>
               <Image src={e.thumbnail} alt="loading" />
             </Link>
           </ImageContainer>
@@ -136,4 +156,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductCard;
