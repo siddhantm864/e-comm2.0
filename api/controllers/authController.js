@@ -1,6 +1,7 @@
 import User from "../models/mongo/user.model.js";
 import bcrypt from "bcrypt";
 import { OAuth2Client } from "google-auth-library";
+import jwt from "jsonwebtoken";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -74,7 +75,6 @@ const googleSignup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "Email does not exist" });
@@ -84,11 +84,26 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "2d" }
+    );
+    res.cookie("token", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
+    });
+    // const { password, ...others } = user._doc; //destructuring to show all data except password
+    // res.status(200).json({ ...others, accessToken });
     return res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 export default { signup, googleSignup, login };

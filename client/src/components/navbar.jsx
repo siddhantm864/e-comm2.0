@@ -154,6 +154,7 @@ const Navbar = () => {
         </Center>
         <Right>
           <IconContainer>
+            {/* if not login then button else profile */}
             <IconItem>
               <Link to={`/profile`}>
                 <PersonIcon />

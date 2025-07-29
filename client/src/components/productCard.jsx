@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import productData from "../data/product.data.json";
 const backendURI=process.env.REACT_APP_BACKEND_URI
 
 const Container = styled.div`
@@ -108,9 +107,18 @@ const WishButton = styled.button`
 `;
 
 // ...rest of your Products component remains the same
-const ProductCard = ({cat}) => {
-  console.log("category",cat)
+const ProductCard = ({cat,filters,sort}) => {
+  console.log("hi", cat, filters, sort)
   const [products,setProducts]=useState([])
+  const [filteredProducts,setFilteredProducts]=useState([])
+  const handleCartClick=()=>{
+
+  }
+
+  const handleWishClick=()=>{
+    
+  }
+
   useEffect(()=>{
     const getProducts=async()=>{
       try{
@@ -127,9 +135,38 @@ const ProductCard = ({cat}) => {
     }
     getProducts()
   },[cat])
+
+  useEffect(() => {
+        cat &&
+            setFilteredProducts(
+                products.filter((item) =>
+                    Object.entries(filters).every(([key, value]) =>
+                        item[key].includes(value)
+                    )
+                )
+            )
+    }, [products, cat, filters])
+
+    useEffect(() => {
+        if (sort === "Newest") {
+            setFilteredProducts((prev) =>
+                [...prev].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+            )
+        }
+        else if (sort === "Price (low to high)") {
+            setFilteredProducts((prev) =>
+                [...prev].sort((a, b) => a.price - b.price)
+            )
+        }
+        else {
+            setFilteredProducts((prev) =>
+                [...prev].sort((a, b) => b.price - a.price)
+            )
+        }
+    }, [sort])
   return (
     <Container>
-      {products.map((e) => (     
+      {filteredProducts.map((e) => (     
         <ProductContainer key={e._id}>
           <ImageContainer>
             <Link to={`/product/${e._id}`}>
@@ -139,13 +176,13 @@ const ProductCard = ({cat}) => {
           <ProductInfo>
             <ProductTitle>{e.title} </ProductTitle>
             <ProductDescription>{e.description}</ProductDescription>
-            <ProductPrice>{e.price}</ProductPrice>
+            <ProductPrice>${e.price}</ProductPrice>
             <ProductWish>
               <FavoriteBorder style={{ padding: "5px", cursor: "pointer" }} />
-              <WishButton style={{ backgroundColor: "light-yellow" }}>
+              <WishButton onClick={handleCartClick} style={{ backgroundColor: "light-yellow" }}>
                 Add to Cart
               </WishButton>
-              <WishButton style={{ backgroundColor: "orange" }}>
+              <WishButton onClick={handleWishClick}style={{ backgroundColor: "orange" }}>
                 Buy Now
               </WishButton>
             </ProductWish>

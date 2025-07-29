@@ -77,10 +77,12 @@ const PriceSlider = styled.input`
 `;
 
 const ProductList = () => {
-  const pathLocation=useLocation()
-  const category=(pathLocation.pathname.split("/")[2])
-  const minDistance = 500;
   const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [sort, setSort]=useState("newest")
+  const [filters, setFilters]=useState({})
+  const pathLocation = useLocation();
+  const category = pathLocation.pathname.split("/")[2];
+  const minDistance = 500;
   const handlePriceChange = (event, newValue, activeThumb) => {
     if (activeThumb === 0) {
       setPriceRange([
@@ -95,6 +97,17 @@ const ProductList = () => {
     }
   };
 
+  const handleFilters = (e) => {
+    console.log("e",e) 
+    console.log("e",e.target.name,e.target.value)
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    })
+    // console.log("hi",setFilters)
+  } 
+
   return (
     <Container>
       <Navbar />
@@ -102,8 +115,20 @@ const ProductList = () => {
       <FilterContainer>
         <div style={{ display: "flex" }}>
           <Filter>
+            <FilterText>Sort Products:</FilterText>
+            <Select name="sort" onChange={(e)=>setSort(e.target.value)}>
+              <Option disabled selected>
+                Sort
+              </Option>
+              <Option>Newest</Option>
+              <Option>Price (low to high)</Option>
+              <Option>Price (high to low)</Option>
+              <Option>Popularity</Option>
+            </Select>
+          </Filter>
+          <Filter>
             <FilterText>Filter Products:</FilterText>
-            <Select name="color">
+            <Select name="color" onChange={handleFilters}>
               <Option
                 style={{ backgroundColor: "light-grey" }}
                 disabled
@@ -117,7 +142,7 @@ const ProductList = () => {
               <Option>Blue</Option>
               <Option>Yellow</Option>
             </Select>
-            <Select name="size">
+            <Select name="size" onChange={handleFilters}>
               <Option
                 style={{ backgroundColor: "light-grey" }}
                 disabled
@@ -130,18 +155,6 @@ const ProductList = () => {
               <Option>M</Option>
               <Option>L</Option>
               <Option>XL</Option>
-            </Select>
-          </Filter>
-          <Filter>
-            <FilterText>Sort Products:</FilterText>
-            <Select name="sort">
-              <Option disabled selected>
-                Sort
-              </Option>
-              <Option>Newest</Option>
-              <Option>Price (low to high)</Option>
-              <Option>Price (high to low)</Option>
-              <Option>Popularity</Option>
             </Select>
           </Filter>
         </div>
@@ -162,7 +175,7 @@ const ProductList = () => {
           </PriceSliderContainer>
         </Filter>
       </FilterContainer>
-      <ProductCard cat={category}/>
+      <ProductCard cat={category} filters={filters} sort={sort}/>
       {/* <Footer/> */}
     </Container>
   );

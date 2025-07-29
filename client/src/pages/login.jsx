@@ -31,12 +31,13 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+    
     try {
-      const res = await axios.post(`${backendURI}api/auth/login`, {
+      console.log("entered here",backendURI)
+      const res = await axios.post(`${backendURI}/api/auth/login`, {
         email,
         password,
-      });
+      }, { withCredentials: true });
 
       navigate("/"); // Redirect on successful login
     } catch (err) {
@@ -45,6 +46,7 @@ const Login = () => {
           err.response?.data?.error ||
           "Login failed"
       );
+      console.log("entered failed")
     } finally {
       setLoading(false);
     }
